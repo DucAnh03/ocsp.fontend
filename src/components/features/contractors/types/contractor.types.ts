@@ -78,7 +78,7 @@ export interface Contractor {
     sortBy?: SortOption;
   }
   
-  export type SortOption = 'Relevance' | 'Rating' | 'ExperienceYears' | 'CompletedProjects' | 'PriceAsc' | 'PriceDesc' | 'Newest' | 'Premium';
+  export type SortOption = number; // 0=Relevance, 1=Rating, 2=ExperienceYears, 3=CompletedProjects, 4=PriceAsc, 5=PriceDesc, 6=Newest, 7=Premium
   
   export interface PaginationState {
     page: number;

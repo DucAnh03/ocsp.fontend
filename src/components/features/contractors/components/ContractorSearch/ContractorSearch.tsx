@@ -41,14 +41,14 @@ const SPECIALTIES = [
 ];
 
 const SORT_OPTIONS: { label: string; value: SortOption }[] = [
-  { label: "Relevance", value: "Relevance" },
-  { label: "Premium trước", value: "Premium" },
-  { label: "Đánh giá cao nhất", value: "Rating" },
-  { label: "Kinh nghiệm nhiều nhất", value: "ExperienceYears" },
-  { label: "Hoàn thành nhiều dự án", value: "CompletedProjects" },
-  { label: "Giá từ thấp đến cao", value: "PriceAsc" },
-  { label: "Giá từ cao đến thấp", value: "PriceDesc" },
-  { label: "Mới nhất", value: "Newest" },
+  { label: "Relevance", value: 0 },
+  { label: "Premium trước", value: 7 },
+  { label: "Đánh giá cao nhất", value: 1 },
+  { label: "Kinh nghiệm nhiều nhất", value: 2 },
+  { label: "Hoàn thành nhiều dự án", value: 3 },
+  { label: "Giá từ thấp đến cao", value: 4 },
+  { label: "Giá từ cao đến thấp", value: 5 },
+  { label: "Mới nhất", value: 6 },
 ];
 
 const CITIES = [
@@ -122,7 +122,7 @@ const ContractorSearch: React.FC<ContractorSearchProps> = ({
   ]);
 
   const handleClearFilters = () => {
-    const clearedFilters = { sortBy: "Premium" as SortOption };
+    const clearedFilters = { sortBy: 7 as SortOption }; // Premium
     setLocalFilters(clearedFilters);
     setBudgetRange([50000000, 1000000000]);
     clearSearchFilters();

@@ -26,3 +26,5 @@ export const projectsApi = {
     return res.data;
   },
 };
+export { ProjectResponseDto, ProjectDetailDto, UpdateProjectDto };
+

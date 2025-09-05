@@ -12,7 +12,7 @@ export interface ContractorSearchParams {
   minYearsExperience?: number;
   isVerified?: boolean;
   isPremium?: boolean;
-  sortBy?: 'Relevance' | 'Rating' | 'ExperienceYears' | 'CompletedProjects' | 'PriceAsc' | 'PriceDesc' | 'Newest' | 'Premium';
+  sortBy?: number; // 0=Relevance, 1=Rating, 2=ExperienceYears, 3=CompletedProjects, 4=PriceAsc, 5=PriceDesc, 6=Newest, 7=Premium
   page?: number;
   pageSize?: number;
 }

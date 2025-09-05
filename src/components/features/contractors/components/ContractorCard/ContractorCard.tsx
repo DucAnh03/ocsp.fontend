@@ -13,6 +13,7 @@ import {
   SafetyCertificateOutlined,
   CrownOutlined,
 } from "@ant-design/icons";
+import QuoteSendButton from "../../../quotes/QuoteSendButton";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -186,6 +187,13 @@ const ContractorCard: React.FC<ContractorCardProps> = ({
             <Button key="view" type="link" icon={<EyeOutlined />}>
               <Link href={`/contractors/${contractor.id}`}>Xem chi tiết</Link>
             </Button>,
+            <QuoteSendButton 
+              key="send-quote" 
+              contractorId={contractor.id} 
+              contractorName={contractor.companyName}
+              type="link" 
+              size="small"
+            />,
             <Button key="contact" type="link" icon={<PhoneOutlined />}>
               Liên hệ
             </Button>,

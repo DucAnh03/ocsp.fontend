@@ -7,11 +7,13 @@ import {
   HomeOutlined,
   TeamOutlined,
   CustomerServiceOutlined,
+  SendOutlined,
 } from "@ant-design/icons";
 import { gsap } from "gsap";
 import Link from "next/link";
 import ContractorSearch from "@/./components/features/contractors/components/ContractorSearch/ContractorSearch";
 import ContractorList from "@/./components/features/contractors/components/ContractorList/ContractorList";
+import QuoteSendModal from "@/./components/features/quotes/QuoteSendModal";
 import { useAuth, UserRole } from "../../hooks/useAuth";
 import styles from "./contractors.module.scss";
 
@@ -21,6 +23,7 @@ const ContractorsPage: React.FC = () => {
   const { user } = useAuth();
   const [favoriteContractors, setFavoriteContractors] = useState<string[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [showSendToAllModal, setShowSendToAllModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -135,6 +138,14 @@ const ContractorsPage: React.FC = () => {
                     <Button size="large" ghost>
                       <Link href="/dashboard/projects/create">Đăng dự án</Link>
                     </Button>
+                    <Button
+                      type="primary"
+                      size="large"
+                      icon={<SendOutlined />}
+                      onClick={() => setShowSendToAllModal(true)}
+                    >
+                      Gửi Quote đến Tất cả
+                    </Button>
                   </Space>
                 </div>
               )}
@@ -204,6 +215,17 @@ const ContractorsPage: React.FC = () => {
           )}
         </FloatButton.Group> */}
       </div>
+
+      {/* Quote Send Modal */}
+      <QuoteSendModal
+        isOpen={showSendToAllModal}
+        onClose={() => setShowSendToAllModal(false)}
+        onSuccess={() => {
+          // Refresh contractor list or show success message
+          console.log('Quote sent successfully');
+        }}
+        sendToAll={true}
+      />
     </div>
   );
 };

@@ -43,7 +43,7 @@ interface ContractorStore {
   };
   
   const initialFilters: SearchFilters = {
-    sortBy: 'Premium',
+    sortBy: 7, // Premium
   };
   
   export const useContractorStore = create<ContractorStore>()(

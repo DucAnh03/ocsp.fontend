@@ -1,14 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import { projectsApi, type ProjectResponseDto } from '@/lib/projects/projects.api';
+import QuotesSection from './QuotesSection';
+import InvitesSection from './InvitesSection';
+import ContractsSection from './ContractsSection';
 
 export default function ProjectsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [projects, setProjects] = useState<ProjectResponseDto[]>([]);
+  const [activeTab, setActiveTab] = useState<'projects' | 'quotes' | 'invites' | 'contracts'>('projects');
+
+
+  const params = useSearchParams();
+  useEffect(() => {
+    const tab = (params.get('tab') || 'projects').toLowerCase();
+    if (tab === 'projects' || tab === 'quotes' || tab === 'invites' || tab === 'contracts') setActiveTab(tab as any);
+  }, [params]);
 
   const fetchProjects = async () => {
     try {
@@ -80,19 +92,22 @@ export default function ProjectsPage() {
   const titleCls = 'text-xl font-semibold text-amber-300 tracking-wide';
   const btnPrimary = 'inline-flex items-center justify-center rounded-md bg-amber-600 text-stone-900 px-4 py-2 font-semibold hover:bg-amber-500 active:bg-amber-600 transition';
 
+
   return (
     <>
       <Header />
       <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-b from-stone-900 via-stone-900/95 to-stone-900 text-stone-100 pt-20">
         <div className="max-w-6xl mx-auto px-4 py-10">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-extrabold tracking-tight text-amber-200">Dự án của tôi</h1>
-            <Link href="/projects/create" className={btnPrimary}>
-              Tạo dự án mới
-            </Link>
-          </div>
+          {activeTab === 'projects' && (
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-3xl font-extrabold tracking-tight text-amber-200">Dự án của tôi</h1>
+              <Link href="/projects/create" className={btnPrimary}>
+                Tạo dự án mới
+              </Link>
+            </div>
+          )}
 
-          {projects.length === 0 ? (
+          {activeTab === 'projects' && (projects.length === 0 ? (
             <div className={cardCls}>
               <div className="text-center py-12">
                 <div className="text-2xl text-stone-400 mb-4">Chưa có dự án nào</div>
@@ -158,6 +173,16 @@ export default function ProjectsPage() {
                 </div>
               ))}
             </div>
+          ))}
+
+          {activeTab === 'quotes' && (
+            <QuotesSection projects={projects} />
+          )}
+          {activeTab === 'invites' && (
+            <InvitesSection />
+          )}
+          {activeTab === 'contracts' && (
+            <ContractsSection />
           )}
         </div>
       </div>

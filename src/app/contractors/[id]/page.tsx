@@ -44,12 +44,14 @@ import {
   PictureOutlined,
   TrophyOutlined,
   CheckCircleOutlined,
+  SendOutlined,
 } from "@ant-design/icons";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
 import { useContractorStore } from "../../../store/contractor-store";
 import { useAuth, UserRole } from "../../../hooks/useAuth";
+import QuoteSendModal from "../../../components/features/quotes/QuoteSendModal";
 import styles from "./contractor-detail.module.scss";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,6 +69,7 @@ const ContractorDetailPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [isFavorited, setIsFavorited] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showSendQuoteModal, setShowSendQuoteModal] = useState(false);
 
   const contractorId = params.id as string;
 
@@ -150,6 +153,19 @@ const ContractorDetailPage: React.FC = () => {
       // Fallback to clipboard
       navigator.clipboard.writeText(window.location.href);
     }
+  };
+
+  const handleSendQuote = () => {
+    if (user?.role === UserRole.Homeowner) {
+      setShowSendQuoteModal(true);
+    } else {
+      router.push("/login");
+    }
+  };
+
+  const handleQuoteSent = () => {
+    console.log("Quote sent successfully to", currentContractor?.companyName);
+    setShowSendQuoteModal(false);
   };
 
   const formatBudget = (amount: number) => {
@@ -278,6 +294,15 @@ const ContractorDetailPage: React.FC = () => {
                         >
                           Chia sẻ
                         </Button>
+                        {user?.role === UserRole.Homeowner && (
+                          <Button
+                            type="primary"
+                            icon={<SendOutlined />}
+                            onClick={handleSendQuote}
+                          >
+                            Gửi Quote
+                          </Button>
+                        )}
                         <Button
                           type="primary"
                           icon={<MessageOutlined />}
@@ -649,6 +674,16 @@ const ContractorDetailPage: React.FC = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Quote Send Modal */}
+      <QuoteSendModal
+        isOpen={showSendQuoteModal}
+        onClose={() => setShowSendQuoteModal(false)}
+        onSuccess={handleQuoteSent}
+        sendToAll={false}
+        contractorId={contractorId}
+        contractorName={currentContractor?.companyName || ""}
+      />
     </div>
   );
 };
